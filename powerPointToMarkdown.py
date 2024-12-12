@@ -2,7 +2,7 @@
 takes every .pptx file in a given directory and outputs converted to md in a specified directory
 """
 import os
-from pptx2md import convert
+from pptx2md import convert, ConversionConfig
 
 def convertPPTX2MD(inputFolder, outputFolder):
     if not os.path.exists(outputFolder):
@@ -13,8 +13,8 @@ def convertPPTX2MD(inputFolder, outputFolder):
             if filename.endswith(".pptx"):
                 inputPath = os.path.join(inputFolder, filename)
                 outputPath = os.path.join(outputFolder, os.path.splitext(filename)[0] + ".md")
-
-                convert(pptx_path=inputPath, output=outputPath)
+                curr_conversion_config = ConversionConfig(pptx_path=inputPath, output_path=outputPath, image_dir=f"{outputFolder}/img", disable_notes=True)
+                convert(curr_conversion_config)
         except Exception as e:
             print(f"An error ({e}) occurred converting {filename}")
             continue
